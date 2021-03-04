@@ -1,8 +1,8 @@
 import numpy as np
-import pygame as pg
 import sys
 from globals import *
 from actors import *
+
 
 
 
@@ -31,25 +31,28 @@ class Simulator:
                 
         return closest_food
 
-    # uses sprite collide function to see if food can be eaten. If so, remove the food
+    
     def attempt_eat_food(self, creature, eat_radius):
-        def collided(creature, food):
-            return distance(creature.pos, food.pos) < eat_radius
-
-        food_within_reach = pg.sprite.spritecollide(creature, self.foods, dokill=True, collided=collided)
-        return True if food_within_reach else False
+        eaten_food = None
+        remove_idx = -1
+        for idx, food in enumerate(self.foods):
+            if distance(food.pos, creature.pos) < eat_radius:
+                eaten_food = food
+                remove_idx = idx
+                break
+        if eaten_food is not None:
+            self.foods.pop(remove_idx)
+        return False if eaten_food is None else True
 
 
     def kill(self, creature):
         self.creatures.remove(creature)
         self.num_creatures -= 1
-        self.dead += 1
 
     def init(self):
-        pg.init()
-        self.screen = pg.display.set_mode([WIDTH, HEIGHT])
-        self.creatures = pg.sprite.Group()
-        self.foods = pg.sprite.Group()
+
+        self.creatures = []
+        self.foods = []
         
 
         # Create the creatures, initialize with random position on edge and velocity
@@ -59,8 +62,8 @@ class Simulator:
             direction = np.random.rand(2) * 2 - 1
             direction = direction / np.linalg.norm(direction)
 
-            dot = Dot(self, x, y, color=BLUE, curr_direction=direction)
-            self.creatures.add(dot)
+            dot = Dot(self, x, y, curr_direction=direction)
+            self.creatures.append(dot)
 
         # create food, initialize with random position
         for i in range(self.num_food):
@@ -68,28 +71,17 @@ class Simulator:
             y = np.random.randint(0, HEIGHT + 1)
 
             food = Food(x, y)
-            self.foods.add(food)
+            self.foods.append(food)
 
 
 
     def run(self):
-        clock = pg.time.Clock()
-        end = False
-        
-
         for day in range(self.days):
             # Go through day 
             for i in range(1000):
-                for event in pg.event.get():
-                    if event.type == pg.QUIT:
-                        sys.exit(0)
-                self.creatures.update()
-                self.foods.update()
-                self.screen.fill(BACKGROUND)
-                self.creatures.draw(self.screen)
-                self.foods.draw(self.screen)
-                pg.display.flip()
-                clock.tick(self.fps)
+                for creature in self.creatures:
+                    creature.update()
+                
 
             # Put creatures back on edges, have them replicate
             baby_list = []
@@ -104,9 +96,9 @@ class Simulator:
                 creature.sleep()
 
             
-            self.creatures.add(*baby_list)
+            self.creatures += baby_list
             self.num_creatures += len(baby_list)    
-            self.foods.empty()
+            self.foods.clear()
 
             # Add new food for next day
             for i in range(self.num_food):
@@ -114,7 +106,7 @@ class Simulator:
                 y = np.random.randint(0, HEIGHT + 1)
 
                 food = Food(x, y)
-                self.foods.add(food)
+                self.foods.append(food)
 
 
             print(self.num_creatures)

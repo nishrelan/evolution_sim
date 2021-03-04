@@ -1,30 +1,18 @@
 
-import pygame as pg
+
 import numpy as np
 from globals import *
 from utils import *
 
 
-class Dot(pg.sprite.Sprite):
+class Dot:
     def __init__(self, simulator, x, y,
-                    color=BLACK, radius=5, speed=1, curr_direction=[0,0],
+                    speed=1, curr_direction=[0,0],
                     sense_radius=30):
 
-        super().__init__()
-        
 
-        self.image = pg.Surface(
-            [radius*2, radius*2]
-        )
-        self.image.fill(BACKGROUND)
-
-        pg.draw.circle(
-            self.image, color, (radius, radius), radius
-        )
-        self.rect = self.image.get_rect()
         self.pos = np.array([x,y], dtype=np.float64)
         self.curr_direction = np.asarray(curr_direction, dtype=np.float64)
-
         # amount of steps left in current direction
         self.steps_left = 30 + np.random.randint(0, 30) - 15
         self.speed = speed
@@ -33,8 +21,6 @@ class Dot(pg.sprite.Sprite):
         self.eat_radius = 1
         self.food_eaten = 0
         self.energy = 800
-        self.color = color
-        self.radius = radius
 
 
     # if override is True, reset direction
@@ -52,19 +38,13 @@ class Dot(pg.sprite.Sprite):
 
         if x < 0:
             self.pos[0] = WIDTH
-            x = WIDTH
         elif x > WIDTH:
             self.pos[0] = 0
-            x = 0
-
         if y < 0:
             self.pos[1] = HEIGHT
-            y = HEIGHT
         elif y > HEIGHT:
             self.pos[1] = 0
-            y = 0
-        self.rect.x = x
-        self.rect.y = y
+
 
     def _hit_walls(self):
         x,y = self.pos
@@ -84,13 +64,10 @@ class Dot(pg.sprite.Sprite):
         elif y > HEIGHT:
             y = HEIGHT
             self.pos[1] = HEIGHT
-        self.rect.x = x
-        self.rect.y = y
+
 
         
     def set_pos(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
         self.pos = np.array([x, y], dtype=np.float64)
 
     def reproduce(self):
@@ -106,7 +83,7 @@ class Dot(pg.sprite.Sprite):
                 sense_noise = 0
             return Dot(
                 self.simulator, 0, 0, 
-                color=BLUE, curr_direction=random_dir(),
+                curr_direction=random_dir(),
                 speed=self.speed+speed_noise,
                 sense_radius=self.sense_radius + sense_noise
             )
@@ -150,29 +127,11 @@ class Dot(pg.sprite.Sprite):
             self.simulator.kill(self)
 
 
-class Food(pg.sprite.Sprite):
-    def __init__(self, x, y,
-                    color=BLACK, radius=5, velocity=[0, 0]):
-
-        super().__init__()
-        
-
-        self.image = pg.Surface(
-            [radius*2, radius*2]
-        )
-        self.image.fill(BACKGROUND)
-
-        pg.draw.circle(
-            self.image, color, (radius, radius), radius
-        )
-        self.rect = self.image.get_rect()
+class Food:
+    def __init__(self, x, y):
         self.pos = np.array([x,y], dtype=np.float64)
 
-        self.rect.x = x
-        self.rect.y = y
 
-    def update(self):
-        pass
 
 
     

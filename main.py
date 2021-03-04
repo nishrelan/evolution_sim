@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from matplotlib import colors
 import numpy as np
+import sys
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -39,5 +40,4 @@ if __name__ == '__main__':
     print(np.average(np.asarray(senses)))
     print(np.average(np.asarray(speeds)))
 
-    pg.quit()
 

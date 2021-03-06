@@ -7,8 +7,20 @@ CC = g++
 CFLAGS  = -Wall
 
 
-main:
-	$(CC) $(CFLAGS) main.cpp -o main.out
+Main: main.o sim.o actors.o utils.o
+	$(CC) $(CFLAGS) -o Main main.o sim.o actors.o utils.o $$(sdl2-config --cflags --libs)
+
+main.o: main.cpp
+	$(CC) $(CFLAGS) -c main.cpp
+
+actors.o: actors.cpp
+	$(CC) $(CFLAGS) -c actors.cpp
+
+sim.o: sim.cpp
+	$(CC) $(CFLAGS) -c sim.cpp
+
+utils.o: utils.cpp
+	$(CC) $(CFLAGS) -c utils.cpp
 
 clean:
-	rm *.out
+	rm *.o Main

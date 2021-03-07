@@ -49,3 +49,9 @@ void random_pos(double* v) {
     v[0] = width_rand();
     v[1] = height_rand();
 }
+
+double distance(double* x, double* y) {
+    double r1 = x[0] - y[0];
+    double r2 = x[1] - y[1];
+    return sqrt(r1*r1 + r2*r2);
+}

@@ -31,5 +31,7 @@ void random_unit_direction(double* v);
 
 void random_pos(double* v);
 
+double distance(double* x, double* y);
+
 
 #endif

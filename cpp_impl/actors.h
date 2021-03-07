@@ -23,6 +23,10 @@ class Creature {
 
 struct Food {
     double pos[2];
+    Food(double* p) {
+        pos[0] = p[0];
+        pos[1] = p[1];
+    }
 };
 
 

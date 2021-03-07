@@ -15,6 +15,7 @@ Simulator::Simulator(int nc, int nf) : num_creatures(nc), num_food(nf) {
     for (int i = 0; i < num_food; i++) {
         double pos[2];
         random_pos(pos);
+        foods.push_back(Food(pos));
     }
 }
 
@@ -28,3 +29,4 @@ void Simulator::run(int num_ticks) {
 
     }
 }
+

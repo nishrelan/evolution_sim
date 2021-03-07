@@ -7,6 +7,7 @@
 #include "sim.h"
 #include "actors.h"
 #include "utils.h"
+#include "vis.h"
 
 
 
@@ -15,12 +16,15 @@
 
 int main(int argc, char** argv) {
 
-    initialize_randomness();
-    int n = 50;
-    if (argc > 1) {
-        n = std::stoi(argv[1]);
-    }    
-    Simulator sim(n, n);
-    sim.run(5);
-    return 0;
+   Visualizer vis = Visualizer();
+   
+   vis.init("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+
+   while (vis.is_running) {
+      vis.handle_events();
+      vis.update();
+      vis.render();
+   }
+   vis.clean();
+
 }

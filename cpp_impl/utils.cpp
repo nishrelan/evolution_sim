@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <iostream>
 
 const double HEIGHT = 600;
 const double WIDTH = 600;
@@ -9,6 +10,7 @@ std::mt19937 mt; // prng
 std::uniform_real_distribution<double>  dist; 
 std::uniform_real_distribution<double> width; 
 std::uniform_real_distribution<double> height; 
+
 
 
 void initialize_randomness() {
@@ -54,4 +56,11 @@ double distance(double* x, double* y) {
     double r1 = x[0] - y[0];
     double r2 = x[1] - y[1];
     return sqrt(r1*r1 + r2*r2);
+}
+
+// modify direction to point from pos to food_pos. normalize as well
+void orient_towards(double* food_pos, double* pos, double* direction) {
+    direction[0] = food_pos[0] - pos[0];
+    direction[1] = food_pos[1] - pos[1];
+    normalize(direction);
 }

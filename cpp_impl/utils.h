@@ -33,5 +33,5 @@ void random_pos(double* v);
 
 double distance(double* x, double* y);
 
-
+void orient_towards(double* food_pos, double* pos, double* direction);
 #endif

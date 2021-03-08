@@ -12,6 +12,8 @@ class Creature {
         double direction[2];
         Simulator* sim;
         int steps_left;
+        double energy;
+        bool is_dead;
 
         
         Creature(double* pos, double* direction, double sr=30, double er=1, double speed=1);
@@ -19,6 +21,7 @@ class Creature {
         //     std::cout << "copy constructor invoked\n";
         // }
         void update();
+        void continue_random_movement();
 };
 
 struct Food {

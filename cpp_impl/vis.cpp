@@ -39,8 +39,25 @@ void Visualizer::handle_events() {
     }
 }
 
-void Visualizer::update() {
+void Visualizer::update(std::vector<Food>* foods, std::vector<Creature>* creatures) {
+    food_rects.resize(foods->size());
+    creature_rects.resize(creatures->size());
 
+    for (int i = 0; i < foods->size(); i++) {
+        SDL_Rect r;
+        r.h = 5; r.w = 5;
+        r.x = foods->at(i).pos[0];
+        r.y = foods->at(i).pos[1];
+        food_rects[i] = r;
+    }
+
+    for (int i = 0; i < creatures->size(); i++) {
+        SDL_Rect r;
+        r.h = 6; r.w = 6;
+        r.x = creatures->at(i).pos[0];
+        r.y = creatures->at(i).pos[1];
+        creature_rects[i] = r;
+    }
 }
 
 void Visualizer::render() {
@@ -48,10 +65,18 @@ void Visualizer::render() {
     SDL_RenderClear(renderer);
 
     // draw stuff on screen
-    SDL_Rect r;
-    r.x = 50; r.y = 50; r.w = 5; r.h = 5;
-    SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &r);
+
+
+
+    // draw food and creatures
+    for (int i = 0; i < food_rects.size(); i++) {
+        SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+        SDL_RenderFillRect(renderer, &food_rects[i]);
+    }
+    for (int i = 0; i < creature_rects.size(); i++) {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+        SDL_RenderFillRect(renderer, &creature_rects[i]);
+    }
 
 
     SDL_RenderPresent(renderer);
@@ -63,3 +88,4 @@ void Visualizer::clean() {
     SDL_Quit();
 
 }
+

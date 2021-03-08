@@ -1,5 +1,8 @@
 #include "SDL2/SDL.h"
 #include <stdio.h>
+#include <vector>
+#include "actors.h"
+
 
 
 class Visualizer {
@@ -9,7 +12,7 @@ class Visualizer {
 
         void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
         void handle_events();
-        void update();
+        void update(std::vector<Food>* foods, std::vector<Creature>* creatures);
         void render();
         void clean();
         bool is_running;
@@ -17,5 +20,21 @@ class Visualizer {
     private:
         SDL_Window* window;
         SDL_Renderer* renderer;
+        std::vector<SDL_Rect> food_rects;
+        std::vector<SDL_Rect> creature_rects;
+
 
 };
+
+
+/*
+class Drawable {
+    public:
+        SDL_Rect rect;
+        int r;
+        int g;
+        int b;
+        Drawable(SDL_Rect rect, int red, int blue, int green) 
+            : rect(rect), r(red), g(green) {}
+};
+*/

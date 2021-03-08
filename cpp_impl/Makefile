@@ -4,11 +4,11 @@ CC = g++
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CFLAGS  = -Wall -O2
+CFLAGS  = -Wall -g -std=c++0x
 
 
-Main: main.o sim.o actors.o utils.o vis.o
-	$(CC) $(CFLAGS) -o Main main.o sim.o actors.o utils.o vis.o $$(sdl2-config --cflags --libs)
+Main.out: main.o sim.o actors.o utils.o vis.o
+	$(CC) $(CFLAGS) -o Main.out main.o sim.o actors.o utils.o vis.o $$(sdl2-config --cflags --libs)
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
-Simulator::Simulator(int nc, int nf) : num_creatures(nc), num_food(nf) {
+Simulator::Simulator(int nc, int nf) : num_creatures(nc), num_food(nf), num_ticks(0) {
     // randomly assign position and direction
     for (int i = 0; i < num_creatures; i++) {
         double dir[2];
@@ -37,6 +37,8 @@ void Simulator::run(int num_ticks) {
 
 
 void Simulator::update() {
+    num_ticks++;
+    // update each creature
     for (int i = 0; i < creatures.size(); i++) {
             creatures[i].update();
         }
@@ -45,6 +47,23 @@ void Simulator::update() {
     creatures.erase(std::remove_if(creatures.begin(), creatures.end(), 
     [](Creature & c) {return c.is_dead; }
     ), creatures.end());
+
+    // add creature babies
+    for (int i = 0; i < baby_buffer.size(); i++) {
+        creatures.push_back(baby_buffer[i]);
+    }
+    baby_buffer.clear();
+
+
+    // add food every n ticks
+    if (num_ticks % FOOD_INTERVAL == 0) {
+        for (int i = 0; i < FOOD_GEN; i++) {
+            double pos[2];
+            random_pos(pos);
+            foods.push_back(Food(pos));
+        }
+    }
+    
 }
 
 

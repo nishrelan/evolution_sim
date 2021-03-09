@@ -39,20 +39,25 @@ void run_simulation(Simulator* sim, Visualizer* vis, int nticks, int fps) {
    }
 }
 
+void run_simulation(Simulator* sim, int nticks, int fps) {
+   for (int i = 0; i < nticks; i++) {
+      sim->update();
+   }
+}
 
 int main(int argc, char** argv) {
 
    initialize_randomness();
    Visualizer vis = Visualizer();
-   Simulator sim = Simulator(50, 300);
+   Simulator sim = Simulator(50, 500);
    
-   vis.init("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+   //vis.init("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 
-   int nticks = 5000;
+   int nticks = 500000;
    int fps = 60;
 
 
-   run_simulation(&sim, &vis, nticks, fps);
+   run_simulation(&sim, nticks, fps);
    std::cout << sim.creatures.size() << std::endl;
    
 

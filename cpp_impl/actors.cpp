@@ -2,14 +2,19 @@
 #include "utils.h"
 #include "sim.h"
 
+
+
+
+
 Creature::Creature(double* pos, double* direction, 
                     double sr, double er, double speed) : 
 sense_radius(sr), eat_radius(er), speed(speed) {
     this->pos[0] = pos[0]; this->pos[1] = pos[1];
     this->direction[0] = direction[0]; this->direction[1] = direction[1];
     steps_left = 60;
-    energy = 500;
+    energy = INITIAL_ENERGY;
     is_dead = false;
+    time_till_procreate = PROCREATION_TIME;
 }
 
 
@@ -27,7 +32,7 @@ void Creature::update() {
 
     // eat food within eat radius if possible
     if (sim->attempt_eat_food(pos, eat_radius))
-        energy += 200;
+        energy += ENERGY_FROM_FOOD;
 
 
     // orient direction towards food if food within sense radius
@@ -39,7 +44,8 @@ void Creature::update() {
     // move
     pos[0] += speed*direction[0];
     pos[1] += speed*direction[1];
-    energy--;
+    energy -= (0.5 + speed*speed/2.);
+    time_till_procreate--;
     if (energy <= 0) {
         is_dead = true;
         return;
@@ -55,6 +61,19 @@ void Creature::update() {
     if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
         steps_left = 60;
         random_unit_direction(direction);
+    }
+
+    // make a baby if possible
+    if (energy >= 500 && time_till_procreate <= 0) {
+        // baby spawns at same position but in random direction
+        double baby_dir[2];
+        random_unit_direction(baby_dir);
+        Creature c(pos, baby_dir);
+        c.speed = speed + (norm_rand() / 5);
+        c.speed = c.speed < 0.1 ? 0.1 : c.speed;
+        c.sim = sim;
+        sim->make_baby(&c);
+        time_till_procreate = PROCREATION_TIME;
     }
 
 }

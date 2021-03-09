@@ -1,6 +1,11 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
+
+const double INITIAL_ENERGY = 500;
+const double ENERGY_FROM_FOOD = 500;
+const double PROCREATION_TIME = 200;
+
 class Simulator;
 
 class Creature {
@@ -14,12 +19,11 @@ class Creature {
         int steps_left;
         double energy;
         bool is_dead;
+        double time_till_procreate;
+
 
         
         Creature(double* pos, double* direction, double sr=30, double er=1, double speed=1);
-        // Creature(const Creature &c) {
-        //     std::cout << "copy constructor invoked\n";
-        // }
         void update();
         void continue_random_movement();
 };

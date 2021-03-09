@@ -14,6 +14,7 @@ extern std::mt19937 mt; // prng
 extern std::uniform_real_distribution<double>  dist; 
 extern std::uniform_real_distribution<double> width; 
 extern std::uniform_real_distribution<double> height;
+extern std::normal_distribution<double> norm;
 
 
 
@@ -34,4 +35,6 @@ void random_pos(double* v);
 double distance(double* x, double* y);
 
 void orient_towards(double* food_pos, double* pos, double* direction);
+
+double norm_rand();
 #endif

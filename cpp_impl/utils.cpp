@@ -10,7 +10,7 @@ std::mt19937 mt; // prng
 std::uniform_real_distribution<double>  dist; 
 std::uniform_real_distribution<double> width; 
 std::uniform_real_distribution<double> height; 
-
+std::normal_distribution<double> norm;
 
 
 void initialize_randomness() {
@@ -22,6 +22,7 @@ void initialize_randomness() {
     width.param(std::uniform_real_distribution<double>::param_type(0, WIDTH));
     height.param(std::uniform_real_distribution<double>::param_type(0, HEIGHT));
     dist.param(std::uniform_real_distribution<double>::param_type(-1, 1));
+    norm.param(std::normal_distribution<double>::param_type(0, 1));
 }
 
 double uniform_rand() {
@@ -33,6 +34,10 @@ double width_rand() {
 }
 double height_rand() {
     return height(mt);
+}
+
+double norm_rand() {
+    return norm(mt);
 }
 
 void normalize(double* v) {

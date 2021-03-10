@@ -3,7 +3,7 @@
 
 #include <vector>
 
-const int FOOD_GEN = 10;
+const int FOOD_GEN = 30;
 const int FOOD_INTERVAL = 100;
 
 class Creature;

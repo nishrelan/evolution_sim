@@ -44,7 +44,7 @@ void Creature::update() {
     // move
     pos[0] += speed*direction[0];
     pos[1] += speed*direction[1];
-    energy -= (0.5 + speed*speed/2.);
+    energy -= (0.5 + speed*speed/5. + sense_radius/100);
     time_till_procreate--;
     if (energy <= 0) {
         is_dead = true;
@@ -69,11 +69,18 @@ void Creature::update() {
         double baby_dir[2];
         random_unit_direction(baby_dir);
         Creature c(pos, baby_dir);
-        c.speed = speed + (norm_rand() / 5);
-        c.speed = c.speed < 0.1 ? 0.1 : c.speed;
+        if (type == 3 || type == 2) {
+            c.speed = speed + (norm_rand() / 5);
+            c.speed = c.speed < 0.1 ? 0.1 : c.speed;
+        }
+        if (type == 3 || type == 1) {
+            c.sense_radius = sense_radius + (norm_rand() * 3);
+            c.sense_radius = c.sense_radius < 0 ? 0 : c.sense_radius;
+        }
+        
         c.sim = sim;
+        c.type = type;
         sim->make_baby(&c);
         time_till_procreate = PROCREATION_TIME;
     }
-
 }

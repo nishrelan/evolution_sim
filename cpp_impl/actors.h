@@ -4,7 +4,9 @@
 
 const double INITIAL_ENERGY = 500;
 const double ENERGY_FROM_FOOD = 500;
-const double PROCREATION_TIME = 200;
+const double PROCREATION_TIME = 300;
+
+const int SPEED = 1; const int SENSE = 2;
 
 class Simulator;
 
@@ -20,6 +22,7 @@ class Creature {
         double energy;
         bool is_dead;
         double time_till_procreate;
+        int type;
 
 
         

@@ -3,7 +3,7 @@
 #include <vector>
 #include "actors.h"
 
-
+struct Drawable;
 
 class Visualizer {
     public:
@@ -21,9 +21,15 @@ class Visualizer {
         SDL_Window* window;
         SDL_Renderer* renderer;
         std::vector<SDL_Rect> food_rects;
-        std::vector<SDL_Rect> creature_rects;
+        std::vector<Drawable> creature_rects;
 
 
+};
+
+struct Drawable {
+    public:
+        SDL_Rect rect;
+        int r; int g; int b;
 };
 
 

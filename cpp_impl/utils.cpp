@@ -17,7 +17,7 @@ void initialize_randomness() {
 
 
 
-    mt.seed(0); // For replicable results
+    mt.seed(rd()); // For replicable results
 
     width.param(std::uniform_real_distribution<double>::param_type(0, WIDTH));
     height.param(std::uniform_real_distribution<double>::param_type(0, HEIGHT));

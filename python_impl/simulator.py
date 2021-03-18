@@ -6,6 +6,7 @@ from actors import *
 
 
 
+
 class Simulator:
 
     def __init__(self, num_creatures=10, num_food=5, fps=30, ticks=1000, days=10):
@@ -20,15 +21,14 @@ class Simulator:
 
     # returns closest sprite within radius, if one exists
     def get_closest_food(self, creature_pos, radius):
+        if not self.foods:
+            return None
+        distances = [distance(food.pos, creature_pos) for food in self.foods]
+        min_distance = min(distances)
         closest_food = None
-        closest_distance = radius + 1
-        for food in self.foods:
-            d = distance(food.pos, creature_pos)
-            if d < radius:
-                if closest_food is None or d < closest_distance:
-                    closest_food = food
-                    closest_distance = d
-                
+        if min_distance < radius:
+            closest_food = self.foods[distances.index(min_distance)]
+
         return closest_food
 
     
@@ -98,7 +98,7 @@ class Simulator:
             
             self.creatures += baby_list
             self.num_creatures += len(baby_list)    
-            self.foods.clear()
+            self.foods = []
 
             # Add new food for next day
             for i in range(self.num_food):

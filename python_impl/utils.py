@@ -1,9 +1,11 @@
 import numpy as np
 from globals import *
+import math
 
 # Return distance between two points
 def distance(pos1, pos2):
-    return np.linalg.norm(pos1 - pos2)
+    diff = pos1 - pos2
+    return math.sqrt(diff[0]**2 + diff[1]**2)
 
 # return unit vecor that points from start to goal
 def orient(start, goal):

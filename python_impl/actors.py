@@ -5,6 +5,8 @@ from globals import *
 from utils import *
 
 
+
+
 class Dot:
     def __init__(self, simulator, x, y,
                     speed=1, curr_direction=[0,0],
@@ -21,6 +23,8 @@ class Dot:
         self.eat_radius = 1
         self.food_eaten = 0
         self.energy = 800
+        self.time_till_procreate = 200
+
 
 
     # if override is True, reset direction

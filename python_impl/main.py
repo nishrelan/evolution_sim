@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 import numpy as np
 import sys
+import cProfile
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -28,6 +29,8 @@ if __name__ == '__main__':
     sim.init()
     sim.run()
 
+    
+
     speeds = [creature.speed for creature in sim.creatures]
     senses = [creature.sense_radius for creature in sim.creatures]
     
@@ -39,5 +42,7 @@ if __name__ == '__main__':
     plt.show()
     print(np.average(np.asarray(senses)))
     print(np.average(np.asarray(speeds)))
+
+
 
 

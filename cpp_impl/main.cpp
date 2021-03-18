@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
    
    vis.init("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 
-   int nticks = 300000;
+   int nticks = 500000;
    int fps = 60;
 
   

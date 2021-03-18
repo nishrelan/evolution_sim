@@ -70,7 +70,7 @@ void Creature::update() {
         random_unit_direction(baby_dir);
         Creature c(pos, baby_dir);
         if (type == 3 || type == 2) {
-            c.speed = speed + (norm_rand() / 5);
+            c.speed = speed + (norm_rand() / 10);
             c.speed = c.speed < 0.1 ? 0.1 : c.speed;
         }
         if (type == 3 || type == 1) {

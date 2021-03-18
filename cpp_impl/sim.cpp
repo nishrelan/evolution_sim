@@ -13,9 +13,9 @@ Simulator::Simulator(int nc, int nf) : num_creatures(nc), num_food(nf), num_tick
         random_pos(pos);
         Creature c = Creature(pos, dir);
         c.sim = this;
-        if (i < nc / 3) c.type = 1;
+        if (i < nc / 3) c.type = 3;
         else if (i < 2*nc/3) c.type = 2;
-        else c.type = 3;
+        else c.type = 1;
         creatures.push_back(c);
     }
     // randomly assign position

@@ -8,6 +8,7 @@
 #include "actors.h"
 #include "utils.h"
 #include "vis.h"
+#include <fstream>
 
 
 
@@ -17,6 +18,7 @@ void run_simulation(Simulator* sim, Visualizer* vis, int nticks, int fps) {
    Uint32 frame_start;
    int frame_time;
 
+   vis->init("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
    for (int i = 0; i < nticks; i++) {
       if (vis->is_running) {
 
@@ -45,41 +47,51 @@ void run_simulation(Simulator* sim, int nticks) {
    }
 }
 
-double average_speed(Simulator* sim) {
-   double average = 0;
-   for (int i = 0; i < sim->creatures.size(); i++) {
-      average += sim->creatures[i].speed;
+
+
+void run_simulation(Simulator* sim, int nticks, int record, std::string filename) {
+   std::string path = "results/";
+   std::ofstream file(path + filename);
+
+   for (int i = 0; i < nticks; i++) {
+      sim->update();
+
+      if (i % record == 0) {
+         for (int j = 0; j < sim->creatures.size(); j++) {
+            Creature* c = &(sim->creatures[j]);
+            file << c->type << " " << c->speed << " " << c->sense_radius << " ";
+         }
+         file << std::endl;
+      }
+
    }
-   return average/(sim->creatures.size());
+   
+   file.close();
 }
 
 int main(int argc, char** argv) {
 
+
+   int nticks = 300000;
+   int fps = 60;
+   int num_creatures = 6;
+   int num_food = 100;
+
    initialize_randomness();
    Visualizer vis = Visualizer();
-   Simulator sim = Simulator(6, 100);
+
    
-   vis.init("Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 
-   int nticks = 500000;
-   int fps = 60;
 
+
+   for (int i = 0; i < 5; i++) {
+      Simulator sim(num_creatures, num_food);
+      std::string filename = "more_iters";
+      filename += std::to_string(i+1) + ".txt";
+      run_simulation(&sim, nticks, 100, filename);
+   }
   
 
-
-   run_simulation(&sim, &vis, nticks, fps);
-
-   int num_red = 0; int num_blue = 0; int num_green = 0;
-   for (int i = 0; i < sim.creatures.size(); i++) {
-      int type = sim.creatures[i].type;
-      if (type == 1) num_red++;
-      else if (type == 2) num_blue++;
-      else num_green++;
-   }
-
-   std::cout << "Number of greens: " << num_green << std::endl;
-   std::cout << "Number of blues: " << num_blue << std::endl;
-   std::cout << "Number of reds: " << num_red << std::endl;
    
 
 }
